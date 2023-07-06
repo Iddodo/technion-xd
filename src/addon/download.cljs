@@ -1,15 +1,15 @@
 (ns addon.download
   (:require
-    [addon.popup.db :as db]))
+    [addon.db :as db]))
 
 (defn fetch-files [files] files) ;; TODO
 
-(defn fetch-filtered [filter-fn]
-  (let [filtered-files (filter filter-fn @db/scanned-files)]
+(defn fetch-filtered [fl filter-fn]
+  (let [filtered-files (filter-fn fl)]
     (fetch-files filtered-files)))
 
-(defn all-files [] (fetch-files @db/scanned-files))
+(defn all-files [fl] (fetch-files fl))
 
-(defn pdf [] (fetch-filtered #(= (:type %) :pdf)))
-(defn powerpoint [] (fetch-filtered #(= (:type %) :ppt?x)))
-(defn word [] (fetch-filtered #(= (:type %) :doc?x)))
+(defn pdf [fl] (fetch-filtered fl #(= (:type %) :pdf)))
+(defn powerpoint [fl] (fetch-filtered fl #(= (:type %) :ppt?x)))
+(defn word [fl] (fetch-filtered fl #(= (:type %) :doc?x)))
